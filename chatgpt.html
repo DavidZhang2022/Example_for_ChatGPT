@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My ChatGPT API Example</title>
+</head>
+<body>
+	<h1>My ChatGPT API Example</h1>
+	<label for="user-input">Enter your message:</label>
+	<input type="text" id="user-input">
+	<button id="send-button" onclick="sendRequest()">Send</button>
+	<p id="response"></p>
+
+	<script>
+		// Replace YOUR_API_KEY with your actual API key
+		const API_KEY = "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";
+		const API_URL = "https://api.openai.com/v1/engines/davinci-codex/completions";
+
+		async function sendRequest() {
+			// Get the user input
+			const userInput = document.getElementById("user-input").value;
+
+			// Send a POST request to the ChatGPT API
+			const response = await fetch(API_URL, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${API_KEY}`,
+				},
+				body: JSON.stringify({
+					prompt: userInput,
+					max_tokens: 50,
+					n: 1,
+				}),
+			});
+
+			// Get the response from the API and display it on the webpage
+			const data = await response.json();
+			const output = data.choices[0].text.trim();
+			document.getElementById("response").textContent = output;
+		}
+	</script>
+</body>
+</html>
+
